@@ -25,7 +25,10 @@ fn fixture_entries() -> BTreeMap<String, (String, String)> {
         assert_eq!(parts.len(), 3, "malformed event schema fixture row: {line}");
         assert!(
             entries
-                .insert(parts[0].to_owned(), (parts[1].to_owned(), parts[2].to_owned()))
+                .insert(
+                    parts[0].to_owned(),
+                    (parts[1].to_owned(), parts[2].to_owned())
+                )
                 .is_none(),
             "duplicate fixture entry for {}",
             parts[0]
@@ -99,8 +102,14 @@ fn every_contract_event_matches_its_versioned_schema_fixture() {
             &shape, fixture_shape,
             "payload shape changed for {name}; review the fixture and version policy"
         );
-        assert_eq!(fixture_version, "event_schema_v1", "fixture version drift for {name}");
-        assert!(seen.insert(name.to_owned(), ()).is_none(), "duplicate event declaration {name}");
+        assert_eq!(
+            fixture_version, "event_schema_v1",
+            "fixture version drift for {name}"
+        );
+        assert!(
+            seen.insert(name.to_owned(), ()).is_none(),
+            "duplicate event declaration {name}"
+        );
         index = field_line + 1;
     }
 
